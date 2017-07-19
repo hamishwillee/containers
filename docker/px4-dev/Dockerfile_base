@@ -16,7 +16,8 @@ RUN apt-get update \
 		cppcheck \
 		curl \
 		g++ \
-		gcc \
+		g++-7 \
+		gcc-7 \
 		genromfs \
 		git \
 		gosu \
@@ -56,6 +57,10 @@ RUN apt-get update \
 	# manual ccache setup
 	&& ln -s /usr/bin/ccache /usr/lib/ccache/cc \
 	&& ln -s /usr/bin/ccache /usr/lib/ccache/c++ \
+	&& rm /usr/bin/gcc /usr/bin/g++ /usr/bin/cc \
+	&& ln -s /usr/bin/gcc-7 /usr/bin/gcc \
+	&& ln -s /usr/bin/g++-7 /usr/bin/g++ \
+	&& ln -s /usr/bin/gcc-7 /usr/bin/cc \
 	# cleanup
 	&& rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/* \
 	# Add Fast-RTPS

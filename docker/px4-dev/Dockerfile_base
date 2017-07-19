@@ -2,7 +2,7 @@
 # PX4 base development environment
 #
 
-FROM ubuntu:xenial
+FROM ubuntu:17.10
 MAINTAINER Daniel Agar <daniel@agar.ca>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -13,6 +13,7 @@ RUN apt-get update \
 		ca-certificates \
 		ccache \
 		cmake \
+		cppcheck \
 		curl \
 		g++ \
 		gcc \

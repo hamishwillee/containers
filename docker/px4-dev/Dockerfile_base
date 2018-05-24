@@ -5,43 +5,27 @@
 FROM ubuntu:xenial
 MAINTAINER Daniel Agar <daniel@agar.ca>
 
-RUN apt-get update \
-	&& DEBIAN_FRONTEND=noninteractive apt-get -y --quiet --no-install-recommends install \
-		bzip2 \
-		ca-certificates \
-		ccache \
-		cmake \
-		curl \
-		default-jre-headless \
-		g++ \
-		gcc \
-		git \
-		gosu \
-		lcov \
-		make \
-		ninja-build \
-		python-gencpp \
-		python-genmsg \
-		python-pip \
-		rsync \
-		unzip \
-		wget \
-		xsltproc \
-		zip \
-	&& apt-get -y autoremove \
-	&& apt-get clean autoclean \
-	&& rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
+RUN apt-get update -yy --quiet
+RUN apt-get -yy --quiet --no-install-recommends install \
+	gosu \
+	sudo  \
+	lsb-core
 
-RUN pip install --upgrade pip \
-	&& pip install setuptools \
-	&& pip install argparse jinja2 empy numpy requests serial toml
+ADD https://raw.githubusercontent.com/PX4/Firmware/master/Tools/setup/ubuntu.sh /tmp/ubuntu.sh
+ADD https://raw.githubusercontent.com/PX4/Firmware/master/Tools/setup/requirements.txt /tmp/requirements.txt
+
+RUN cd /tmp && bash ubuntu.sh \
+	&& apt-get -yy --quiet autoremove \
+	&& apt-get -yy --quiet clean autoclean \
+	&& rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
 
 # manual ccache setup
 RUN ln -s /usr/bin/ccache /usr/lib/ccache/cc \
 	&& ln -s /usr/bin/ccache /usr/lib/ccache/c++
 
 # astyle v2.06
-RUN wget -q https://downloads.sourceforge.net/project/astyle/astyle/astyle%202.06/astyle_2.06_linux.tar.gz -O /tmp/astyle.tar.gz \
+
+RUN wget -q https://downloads.sourceforge.net/project/astyle/astyle/astyle%203.1/astyle_3.1_linux.tar.gz -O /tmp/astyle.tar.gz \
 	&& cd /tmp && tar zxf astyle.tar.gz && cd astyle/src \
 	&& make -f ../build/gcc/Makefile && cp bin/astyle /usr/local/bin \
 	&& rm -rf /tmp/*

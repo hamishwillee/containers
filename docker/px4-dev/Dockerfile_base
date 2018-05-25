@@ -11,8 +11,11 @@ RUN apt-get -yy --quiet --no-install-recommends install \
 	sudo  \
 	lsb-core
 
-ADD https://raw.githubusercontent.com/PX4/Firmware/master/Tools/setup/ubuntu.sh /tmp/ubuntu.sh
-ADD https://raw.githubusercontent.com/PX4/Firmware/master/Tools/setup/requirements.txt /tmp/requirements.txt
+ADD https://raw.githubusercontent.com/hamishwillee/Firmware/hw_devsetup/Tools/setup/ubuntu.sh /tmp/ubuntu.sh
+ADD https://raw.githubusercontent.com/hamishwillee/Firmware/hw_devsetup/Tools/setup/requirements.txt /tmp/requirements.txt
+#ADD https://raw.githubusercontent.com/PX4/Firmware/master/Tools/setup/ubuntu.sh /tmp/ubuntu.sh
+#ADD https://raw.githubusercontent.com/PX4/Firmware/master/Tools/setup/requirements.txt /tmp/requirements.txt
+
 
 RUN cd /tmp && bash ubuntu.sh \
 	&& apt-get -yy --quiet autoremove \
